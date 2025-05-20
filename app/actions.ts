@@ -68,7 +68,7 @@ export const signInAction = async (formData: FormData) => {
   }
 
   if (roles?.role === "clerk") {
-    return redirect("/cleark");
+    return redirect("/clerk");
   }
 
   return redirect("/protected");

@@ -56,6 +56,12 @@ export const updateSession = async (request: NextRequest) => {
       if (data?.role === "admin") {
         return NextResponse.redirect(new URL("/admin", request.url));
       }
+      if (data?.role === "lawyer") {
+        return NextResponse.redirect(new URL("/lawyer", request.url));
+      }
+      if (data?.role === "clerk") {
+        return NextResponse.redirect(new URL("/clerk", request.url));
+      }
       return NextResponse.redirect(new URL("/protected", request.url));
     }
 
