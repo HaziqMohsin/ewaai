@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -30,9 +31,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { createClient } from "@/utils/supabase/client";
-
-const supabase = createClient();
 
 const formSchema = z.object({
   full_name: z.string().min(2).max(50),
@@ -46,6 +44,9 @@ const formSchema = z.object({
 type Props = {};
 
 const AddUser = (props: Props) => {
+  const [open, setOpen] = useState(false);
+  const [isSubmittiing, setIsSubmittiing] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,6 +60,7 @@ const AddUser = (props: Props) => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmittiing(true);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -76,24 +78,59 @@ const AddUser = (props: Props) => {
       }),
     });
 
-    console.log(res);
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      setOpen(false);
+      form.reset();
+    } else {
+      const error = await res.json();
+      console.error("Error creating user:", error);
+    }
+
+    setIsSubmittiing(false);
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Add User</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add User</DialogTitle>
-          <DialogDescription>Click submit when you're done.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="grid gap-4 py-4"
           >
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel>Role</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="lawyer">Lawyer</SelectItem>
+                      <SelectItem value="clerk">Clerk</SelectItem>
+                      <SelectItem value="client">Client</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage className="mt-2" />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="full_name"
@@ -146,33 +183,10 @@ const AddUser = (props: Props) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem className="">
-                  <FormLabel>Role</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select role" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="admin">Admin</SelectItem>
-                      <SelectItem value="lawyer">Lawyer</SelectItem>
-                      <SelectItem value="clerk">Clerk</SelectItem>
-                      <SelectItem value="client">Client</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="mt-2" />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
+
+            <Button type="submit" disabled={isSubmittiing} className="mt-4">
+              Submit
+            </Button>
           </form>
         </Form>
       </DialogContent>
