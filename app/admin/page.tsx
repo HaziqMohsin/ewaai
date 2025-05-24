@@ -1,4 +1,5 @@
 import React from "react";
+import AuthButton from "@/components/header-auth";
 
 type Props = {};
 
@@ -13,6 +14,7 @@ const Admin = async (props: Props) => {
         <p className="text-sm text-foreground">
           You can manage your application here.
         </p>
+        <AuthButton />
       </div>
     </div>
   );

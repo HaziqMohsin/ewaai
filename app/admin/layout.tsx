@@ -9,7 +9,7 @@ export default async function Layout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full h-full flex flex-col gap-4 p-4">
         <SidebarTrigger />
         {children}
       </main>
