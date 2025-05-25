@@ -9,10 +9,7 @@ type Props = {};
 
 const User = async (props: Props) => {
   const supabase = await createClient();
-
   const { data: profile, error } = await supabase.from("profiles").select("*");
-
-  console.log(profile);
 
   return (
     <div>
