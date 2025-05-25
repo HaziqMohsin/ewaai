@@ -8,7 +8,8 @@ const supabase = createClient(
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { username, password, role, full_name, email } = body;
+  const { username, password, role, full_name, email, job_title, department } =
+    body;
 
   const { data, error } = await supabase.auth.admin.createUser({
     email,
@@ -28,8 +29,8 @@ export async function POST(req: Request) {
       .insert([
         {
           id: data.user?.id,
-          job_title: role,
-          department: "default", // You can change this to a specific department if needed
+          job_title,
+          department, // You can change this to a specific department if needed
         },
       ]);
 
