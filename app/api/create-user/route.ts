@@ -22,6 +22,25 @@ export async function POST(req: Request) {
     .eq("id", data.user?.id)
     .select();
 
+  if (role !== "client") {
+    const { data: resEmp, error: errEmp } = await supabase
+      .from("employees")
+      .insert([
+        {
+          id: data.user?.id,
+          job_title: role,
+          department: "default", // You can change this to a specific department if needed
+        },
+      ]);
+
+    if (errEmp) {
+      return NextResponse.json(
+        { error: errEmp.message, msg: "create employee error" },
+        { status: 400 }
+      );
+    }
+  }
+
   if (error) {
     return NextResponse.json(
       { error: error.message, msg: "create user error" },
