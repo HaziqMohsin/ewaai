@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Link from "next/link";
 
 const formSchema = z.object({
   full_name: z.string().min(2).max(50),
@@ -204,10 +205,24 @@ const CreateUserForm = (props: Props) => {
               </FormItem>
             )}
           />
-
-          <Button type="submit" disabled={isSubmittiing} className="mt-4">
-            Submit
-          </Button>
+          <div className="flex items-center justify-end pace-x-2">
+            <Link href="/admin/user">
+              <Button
+                variant={"secondary"}
+                disabled={isSubmittiing}
+                className="mt-4 max-w-xs ml-auto"
+              >
+                Back
+              </Button>
+            </Link>
+            <Button
+              type="submit"
+              disabled={isSubmittiing}
+              className="mt-4 max-w-xs ml-auto"
+            >
+              Submit
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
