@@ -84,6 +84,7 @@ export const columns: ColumnDef<Profiles>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem>View</DropdownMenuItem>
               <DropdownMenuItem>Edit</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

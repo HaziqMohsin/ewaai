@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   full_name: z.string().min(2).max(50),
@@ -37,6 +38,7 @@ const formSchema = z.object({
 type Props = {};
 
 const CreateUserForm = (props: Props) => {
+  const { toast } = useToast();
   const [isSubmittiing, setIsSubmittiing] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -86,6 +88,9 @@ const CreateUserForm = (props: Props) => {
       const data = await res.json();
       console.log(data);
       form.reset();
+      toast({
+        description: "User created successfully!",
+      });
     } else {
       const error = await res.json();
       console.error("Error creating user:", error);
