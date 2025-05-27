@@ -24,7 +24,7 @@ const items = [
     icon: Users,
   },
   {
-    title: "Calendar",
+    title: "Clients",
     url: "#",
     icon: Calendar,
   },

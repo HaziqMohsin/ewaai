@@ -150,7 +150,10 @@ const CreateUserForm = (props: Props) => {
             name="job_title"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>Job title</FormLabel>
+                <FormLabel>
+                  Job title{" "}
+                  <span className="opacity-50 text-xs">(optional)</span>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="clerk" {...field} />
                 </FormControl>
@@ -163,7 +166,10 @@ const CreateUserForm = (props: Props) => {
             name="department"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel>Department</FormLabel>
+                <FormLabel>
+                  Department{" "}
+                  <span className="opacity-50 text-xs">(optional)</span>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Tech" {...field} />
                 </FormControl>
