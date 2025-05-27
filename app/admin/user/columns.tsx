@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -92,7 +93,7 @@ export const columns: ColumnDef<Employee>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original;
+      const employee = row.original;
 
       return (
         <div className="flex justify-end">
@@ -104,7 +105,9 @@ export const columns: ColumnDef<Employee>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>View</DropdownMenuItem>
+              <Link href={`/admin/user/${employee.id}`}>
+                <DropdownMenuItem>View</DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>Edit</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
