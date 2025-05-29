@@ -57,16 +57,22 @@ export default async function Page({
         annual_leave={formattedEmployees.annual_leave}
         salary={formattedEmployees.salary}
       />
-      <div className="flex gap-2 items-center justify-end">
-        <Link href="/admin/user">
-          <Button variant="outline" className="mt-4">
-            <ArrowLeft className="mr-2" />
-            Back to Users
-          </Button>
-        </Link>
-        <Button variant="default" className="mt-4">
-          Edit
-        </Button>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex justify-end">
+          <Link href="/admin/user">
+            <Button variant="outline" className="mt-4 ">
+              <ArrowLeft className="mr-2" />
+              Back to Users
+            </Button>
+          </Link>
+        </div>
+        <div className="">
+          <Link href={`/admin/edit-user/${id}`}>
+            <Button variant="default" className="mt-4">
+              Edit
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );
