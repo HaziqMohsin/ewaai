@@ -1,4 +1,4 @@
-import CreateCaseForm from "../createCaseForm";
+import CreateCaseForm from "./createCaseForm";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function CreateCasePage() {

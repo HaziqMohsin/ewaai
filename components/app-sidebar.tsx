@@ -32,7 +32,7 @@ const items = [
     icon: Users,
   },
   {
-    title: "Case",
+    title: "Cases",
     url: "/case",
     icon: Archive,
   },

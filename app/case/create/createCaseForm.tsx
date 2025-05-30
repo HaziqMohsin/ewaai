@@ -76,32 +76,30 @@ export default function CreateCaseForm({
   const clerks = profiles.filter((p) => p.role === "clerk");
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // const participants = [
-    //   ...values.lawyers.map((id) => ({ profile_id: id, role: "lawyer" })),
-    //   ...(values.clerks?.map((id) => ({ profile_id: id, role: "clerk" })) ||
-    //     []),
-    // ];
+    const participants = [
+      { profile_id: values.clerks, role: "clerk" },
+      { profile_id: values.lawyers, role: "lawyer" },
+    ];
 
-    // const res = await fetch("/api/cases/create", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     ...values,
-    //     created_by: currentUserId,
-    //     participants,
-    //   }),
-    // });
+    const res = await fetch("/api/case", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...values,
+        created_by: currentUserId,
+        participants,
+      }),
+    });
 
-    // const result = await res.json();
+    const result = await res.json();
 
-    // if (!res.ok) {
-    //   toast({ title: "Error", description: result.error });
-    // } else {
-    //   toast({ title: "Success", description: "Case created successfully" });
-    //   router.push(`/admin/cases/${result.case_id}`);
-    // }
-
-    console.log(values);
+    console.log(result);
+    if (!res.ok) {
+      toast({ title: "Error", description: result.error });
+    } else {
+      toast({ title: "Success", description: "Case created successfully" });
+      form.reset();
+    }
   };
 
   return (
