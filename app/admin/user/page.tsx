@@ -33,14 +33,10 @@ const User = async (props: Props) => {
     role: emp.profiles?.role,
   }));
 
-  console.log(formattedEmployees);
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-medium">Users</h1>
-        <Link href="/admin/create-user">
-          <Button variant="outline">Create User</Button>
-        </Link>
       </div>
       <Tabs defaultValue="employee" className="w-full">
         <TabsList>
@@ -48,12 +44,24 @@ const User = async (props: Props) => {
           <TabsTrigger value="client">Client</TabsTrigger>
         </TabsList>
         <TabsContent value="employee" className="w-full">
+          <div className="flex justify-end">
+            <Link href="/admin/create-user">
+              <Button variant="outline">Create User</Button>
+            </Link>
+          </div>
+
           <DataTable
             columns={columns}
             data={formattedEmployees as Employee[]}
           />
         </TabsContent>
-        <TabsContent value="client">Change your password here.</TabsContent>
+        <TabsContent value="client">
+          <div className="flex justify-end">
+            <Link href="/admin/create-client">
+              <Button variant="outline">Create Client</Button>
+            </Link>
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );

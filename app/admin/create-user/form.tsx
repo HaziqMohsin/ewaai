@@ -125,7 +125,6 @@ const CreateUserForm = (props: Props) => {
                     <SelectItem value="admin">Admin</SelectItem>
                     <SelectItem value="lawyer">Lawyer</SelectItem>
                     <SelectItem value="clerk">Clerk</SelectItem>
-                    <SelectItem value="client">Client</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage className="mt-2" />
