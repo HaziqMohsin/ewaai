@@ -31,8 +31,14 @@ type Profile = {
   role: "client" | "lawyer" | "clerk";
 };
 
+type Client = {
+  id: string;
+  full_name: string;
+};
+
 type Props = {
   profiles: Profile[];
+  client: Client[];
   currentUserId: string;
 };
 
@@ -47,7 +53,11 @@ const formSchema = z.object({
   clerks: z.string().uuid().optional(),
 });
 
-export default function CreateCaseForm({ profiles, currentUserId }: Props) {
+export default function CreateCaseForm({
+  profiles,
+  client,
+  currentUserId,
+}: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,7 +72,6 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
   });
 
   const router = useRouter();
-  const clients = profiles.filter((p) => p.role === "client");
   const lawyers = profiles.filter((p) => p.role === "lawyer");
   const clerks = profiles.filter((p) => p.role === "clerk");
 
@@ -170,7 +179,7 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {clients.map((c) => (
+                  {client.map((c) => (
                     <SelectItem key={c.id} value={c.id}>
                       {c.full_name}
                     </SelectItem>

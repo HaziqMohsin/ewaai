@@ -8,6 +8,8 @@ export default async function CreateCasePage() {
   } = await supabase.auth.getUser();
   const data = await fetch(`${process.env.API_URL}/employee`);
   const emp = await data.json();
+  const resClient = await fetch(`${process.env.API_URL}/client`);
+  const clients = await resClient.json();
 
   return (
     <div className="max-w-lg mx-auto h-full flex flex-col gap-4 p-4 my-10">
@@ -16,7 +18,11 @@ export default async function CreateCasePage() {
         Use the form below to create a new case. Fill in all required fields and
         assign lawyers and clerks as needed.
       </p>
-      <CreateCaseForm profiles={emp?.data} currentUserId={user?.id as string} />
+      <CreateCaseForm
+        profiles={emp?.data}
+        client={clients}
+        currentUserId={user?.id as string}
+      />
     </div>
   );
 }
