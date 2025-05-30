@@ -8,6 +8,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -16,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Zen_Loop } from "next/font/google";
 
 type Profile = {
   id: string;
@@ -35,8 +43,8 @@ const formSchema = z.object({
   case_type: z.string().min(2),
   court_level: z.string().optional(),
   client_id: z.string().uuid(),
-  lawyers: z.array(z.string().uuid()),
-  clerks: z.array(z.string().uuid()).optional(),
+  lawyers: z.string().uuid(),
+  clerks: z.string().uuid().optional(),
 });
 
 export default function CreateCaseForm({ profiles, currentUserId }: Props) {
@@ -48,8 +56,8 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
       case_type: "",
       court_level: "",
       client_id: "",
-      lawyers: [],
-      clerks: [],
+      lawyers: "",
+      clerks: "",
     },
   });
 
@@ -59,30 +67,32 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
   const clerks = profiles.filter((p) => p.role === "clerk");
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const participants = [
-      ...values.lawyers.map((id) => ({ profile_id: id, role: "lawyer" })),
-      ...(values.clerks?.map((id) => ({ profile_id: id, role: "clerk" })) ||
-        []),
-    ];
+    // const participants = [
+    //   ...values.lawyers.map((id) => ({ profile_id: id, role: "lawyer" })),
+    //   ...(values.clerks?.map((id) => ({ profile_id: id, role: "clerk" })) ||
+    //     []),
+    // ];
 
-    const res = await fetch("/api/cases/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...values,
-        created_by: currentUserId,
-        participants,
-      }),
-    });
+    // const res = await fetch("/api/cases/create", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     ...values,
+    //     created_by: currentUserId,
+    //     participants,
+    //   }),
+    // });
 
-    const result = await res.json();
+    // const result = await res.json();
 
-    if (!res.ok) {
-      toast({ title: "Error", description: result.error });
-    } else {
-      toast({ title: "Success", description: "Case created successfully" });
-      router.push(`/admin/cases/${result.case_id}`);
-    }
+    // if (!res.ok) {
+    //   toast({ title: "Error", description: result.error });
+    // } else {
+    //   toast({ title: "Success", description: "Case created successfully" });
+    //   router.push(`/admin/cases/${result.case_id}`);
+    // }
+
+    console.log(values);
   };
 
   return (
@@ -153,16 +163,21 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Client</FormLabel>
-              <FormControl>
-                <select {...field} className="w-full p-2 border rounded">
-                  <option value="">Select client</option>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select client" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
                   {clients.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <SelectItem key={c.id} value={c.id}>
                       {c.full_name}
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-              </FormControl>
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}
@@ -173,26 +188,22 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
           name="lawyers"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Assign Lawyers</FormLabel>
-              <FormControl>
-                <select
-                  multiple
-                  value={field.value}
-                  onChange={(e) => {
-                    const selected = Array.from(e.target.selectedOptions).map(
-                      (o) => o.value
-                    );
-                    field.onChange(selected);
-                  }}
-                  className="w-full p-2 border rounded h-28"
-                >
+              <FormLabel>Lawyer</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select lawyers" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
                   {lawyers.map((l) => (
-                    <option key={l.id} value={l.id}>
+                    <SelectItem key={l.id} value={l.id}>
                       {l.full_name}
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-              </FormControl>
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}
@@ -203,26 +214,22 @@ export default function CreateCaseForm({ profiles, currentUserId }: Props) {
           name="clerks"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Assign Clerks</FormLabel>
-              <FormControl>
-                <select
-                  multiple
-                  value={field.value}
-                  onChange={(e) => {
-                    const selected = Array.from(e.target.selectedOptions).map(
-                      (o) => o.value
-                    );
-                    field.onChange(selected);
-                  }}
-                  className="w-full p-2 border rounded h-24"
-                >
+              <FormLabel>Clerks</FormLabel>
+              <Select onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select clerk" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
                   {clerks.map((c) => (
-                    <option key={c.id} value={c.id}>
+                    <SelectItem key={c.id} value={c.id}>
                       {c.full_name}
-                    </option>
+                    </SelectItem>
                   ))}
-                </select>
-              </FormControl>
+                </SelectContent>
+              </Select>
+
               <FormMessage />
             </FormItem>
           )}
