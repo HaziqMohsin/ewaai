@@ -6,6 +6,35 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY! // Secret server-side key
 );
 
+export async function GET(req: NextRequest) {
+  const { data, error } = await supabase.from("cases").select(`
+    *,
+    client:profiles!cases_client_id_fkey (
+      full_name
+    ),
+    creator:profiles!cases_created_by_fkey (
+      full_name
+    )
+  `);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 400 });
+  }
+
+  const formatData = data?.map((v) => ({
+    id: v.id,
+    title: v.title,
+    description: v.description,
+    case_type: v.case_type,
+    court_level: v.court_level,
+    client_name: v.client?.full_name,
+    created_by: v.creator?.full_name,
+    created_at: v.created_at,
+    status: v.status,
+  }));
+  return NextResponse.json(formatData, { status: 200 });
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const {

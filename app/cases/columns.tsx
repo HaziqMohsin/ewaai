@@ -51,6 +51,10 @@ export const columns: ColumnDef<Case>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "client_name",
+    header: "Client Name",
+  },
+  {
     accessorKey: "title",
     header: "Title",
   },
@@ -67,16 +71,12 @@ export const columns: ColumnDef<Case>[] = [
     header: "Court Level",
   },
   {
-    accessorKey: "client_name",
-    header: "Client Name",
+    accessorKey: "status",
+    header: "Status",
   },
   {
     accessorKey: "created_by",
     header: "Created By",
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
   },
   //   {
   //     accessorKey: "role",
@@ -111,7 +111,7 @@ export const columns: ColumnDef<Case>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const employee = row.original;
+      const cases = row.original;
 
       return (
         <div className="flex justify-end">
@@ -123,7 +123,7 @@ export const columns: ColumnDef<Case>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <Link href={`/admin/user/${employee.id}`}>
+              <Link href={`/cases/${cases.id}`}>
                 <DropdownMenuItem>View</DropdownMenuItem>
               </Link>
               <DropdownMenuItem>Edit</DropdownMenuItem>

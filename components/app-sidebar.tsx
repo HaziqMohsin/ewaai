@@ -33,7 +33,7 @@ const items = [
   },
   {
     title: "Cases",
-    url: "/case",
+    url: "/cases",
     icon: Archive,
   },
   //   {

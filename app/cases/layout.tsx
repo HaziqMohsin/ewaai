@@ -13,7 +13,7 @@ export default async function Layout({
         <SidebarTrigger />
       </div>
 
-      <main className="w-full min-h-dvh flex flex-col gap-4 relative">
+      <main className="w-full min-h-dvh flex flex-col gap-4 p-4 relative">
         {children}
       </main>
     </SidebarProvider>
