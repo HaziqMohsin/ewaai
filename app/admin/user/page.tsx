@@ -1,9 +1,9 @@
 import React from "react";
 import { createClient } from "@/utils/supabase/server";
 import { Employee, columns } from "./columns";
+import { Client, columns as ColumnsClient } from "./columnsClient";
 import { DataTable } from "./data-table";
 import { Button } from "@/components/ui/button";
-import AddUser from "./addUser-form";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -11,7 +11,6 @@ type Props = {};
 
 const User = async (props: Props) => {
   const supabase = await createClient();
-  const { data: profile, error } = await supabase.from("profiles").select("*");
   const { data: employees, error: errEmp } = await supabase.from("employees")
     .select(`
     *,
@@ -32,6 +31,9 @@ const User = async (props: Props) => {
     username: emp.profiles?.username,
     role: emp.profiles?.role,
   }));
+
+  const data = await fetch(`${process.env.API_URL}/client`);
+  const clients = await data.json();
 
   return (
     <div>
@@ -61,6 +63,7 @@ const User = async (props: Props) => {
               <Button variant="outline">Create Client</Button>
             </Link>
           </div>
+          <DataTable columns={ColumnsClient} data={clients as Client[]} />
         </TabsContent>
       </Tabs>
     </div>
