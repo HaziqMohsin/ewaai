@@ -72,7 +72,11 @@ export default function CreateCaseEventForm({ caseId }: Props) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const dateObj = new Date(values.date);
     const [hours, minutes] = values.time.split(":").map(Number);
-    dateObj.setHours(hours, minutes, 0, 0); // Set time to the selected date
+    dateObj.setHours(hours);
+    dateObj.setMinutes(minutes); // Set time to the selected date
+    dateObj.setSeconds(0);
+    dateObj.setMilliseconds(0);
+
     const event_date = dateObj.toISOString(); // Convert to ISO string for consistency
 
     const body = {
@@ -88,8 +92,6 @@ export default function CreateCaseEventForm({ caseId }: Props) {
     });
 
     const result = await res.json();
-
-    console.log(result);
 
     if (!res.ok) {
       toast({ title: "Error", description: result.error });

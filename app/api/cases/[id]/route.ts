@@ -61,6 +61,18 @@ export async function GET(
     );
   }
 
+  const { data: eventsData, error: eventsError } = await supabase
+    .from("case_events")
+    .select("*")
+    .eq("case_id", id);
+
+  if (eventsError) {
+    return NextResponse.json(
+      { error: "Failed to fetch case events" },
+      { status: 500 }
+    );
+  }
+
   const formattedParticipants = participantsData?.map((participant: any) => ({
     role: participant.role,
     full_name: participant.profile?.full_name,
@@ -77,6 +89,7 @@ export async function GET(
     created_at: caseData.created_at,
     case_status: caseData.status,
     participant: formattedParticipants || [],
+    case_event: eventsData || [],
   };
 
   return NextResponse.json(

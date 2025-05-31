@@ -1,4 +1,6 @@
 import { Label } from "@/components/ui/label";
+import { DataTable } from "./data-table";
+import { columnsEvent, CaseEvent } from "./columnsEvent";
 
 export default async function CasePage({
   params,
@@ -18,6 +20,7 @@ export default async function CasePage({
       created_at,
       participant,
       case_status,
+      case_event,
     },
   } = caseData;
 
@@ -70,6 +73,7 @@ export default async function CasePage({
         </div>
         <hr className="my-4" />
         <h3 className="text-lg font-semibold mb-4">Events</h3>
+        <DataTable columns={columnsEvent} data={case_event as CaseEvent[]} />
         <hr className="my-4" />
         <h3 className="text-lg font-semibold mb-4">Documents</h3>
       </div>
