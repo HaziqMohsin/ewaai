@@ -1,3 +1,5 @@
+import { Label } from "@/components/ui/label";
+
 export default async function CasePage({
   params,
 }: {
@@ -6,15 +8,62 @@ export default async function CasePage({
   const { id } = await params;
   const data = await fetch(`${process.env.API_URL}/cases/${id}`);
   const caseData = await data.json();
-  console.log(caseData);
+  const {
+    data: {
+      title,
+      description,
+      case_type,
+      court_level,
+      client_name,
+      created_at,
+      participant,
+    },
+  } = caseData;
+
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Case Details</h1>
-      <p className="text-gray-600 mb-4">
-        This page displays the details of a specific case. You can view and
-        manage the case information, including assigned lawyers, clerks, and
-        case status.
-      </p>
+    <div className="flex flex-col gap-4 my-10">
+      <div className="grid grid-cols-1">
+        <h3 className="text-lg font-semibold mb-4">Case Details</h3>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Client Name:</Label>
+          <span className="col-span-4">{client_name}</span>
+        </div>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Title:</Label>
+          <span className="col-span-4">{title}</span>
+        </div>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Description:</Label>
+          <span className="col-span-4">{description}</span>
+        </div>
+
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Case type:</Label>
+          <span className="col-span-4">{case_type}</span>
+        </div>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Court Level:</Label>
+          <span className="col-span-4">{court_level || "-"}</span>
+        </div>
+        <hr className="my-4" />
+        <h3 className="text-lg font-semibold mb-4">Participants</h3>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Lawyer:</Label>
+          <span className="col-span-4">
+            {participant.find((v: any) => v.role === "lawyer").full_name}
+          </span>
+        </div>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Clerk:</Label>
+          <span className="col-span-4">
+            {participant.find((v: any) => v.role === "clerk").full_name}
+          </span>
+        </div>
+        <hr className="my-4" />
+        <h3 className="text-lg font-semibold mb-4">Events</h3>
+        <hr className="my-4" />
+        <h3 className="text-lg font-semibold mb-4">Documents</h3>
+      </div>
     </div>
   );
 }
