@@ -17,6 +17,7 @@ export default async function CasePage({
       client_name,
       created_at,
       participant,
+      case_status,
     },
   } = caseData;
 
@@ -44,6 +45,14 @@ export default async function CasePage({
         <div className="grid grid-cols-6 gap-4 items-center">
           <Label className="text-right">Court Level:</Label>
           <span className="col-span-4">{court_level || "-"}</span>
+        </div>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Created at:</Label>
+          <span className="col-span-4">{created_at || "-"}</span>
+        </div>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <Label className="text-right">Status:</Label>
+          <span className="col-span-4">{case_status || "-"}</span>
         </div>
         <hr className="my-4" />
         <h3 className="text-lg font-semibold mb-4">Participants</h3>

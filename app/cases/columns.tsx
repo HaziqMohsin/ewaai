@@ -127,6 +127,9 @@ export const columns: ColumnDef<Case>[] = [
                 <DropdownMenuItem>View</DropdownMenuItem>
               </Link>
               <DropdownMenuItem>Edit</DropdownMenuItem>
+              <Link href={`/cases/${cases.id}/create-event`}>
+                <DropdownMenuItem>Create Event</DropdownMenuItem>
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

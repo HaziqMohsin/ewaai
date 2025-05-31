@@ -75,7 +75,7 @@ export async function GET(
     client_name: caseData.client?.full_name,
     created_by: caseData.creator?.full_name,
     created_at: caseData.created_at,
-    status: caseData.status,
+    case_status: caseData.status,
     participant: formattedParticipants || [],
   };
 
