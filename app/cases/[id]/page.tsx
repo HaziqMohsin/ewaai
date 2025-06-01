@@ -25,6 +25,19 @@ export default async function CasePage({
     },
   } = caseData;
 
+  const formatStatusName = (status: string) => {
+    switch (status) {
+      case "open":
+        return "Open";
+      case "in_progress":
+        return "In Progress";
+      case "closed":
+        return "Closed";
+      default:
+        return status;
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4 my-10">
       <div className="grid grid-cols-1">
@@ -58,7 +71,9 @@ export default async function CasePage({
         </div>
         <div className="grid grid-cols-6 gap-4 items-center">
           <Label className="text-right">Status:</Label>
-          <span className="col-span-4">{case_status || "-"}</span>
+          <span className="col-span-4">
+            {formatStatusName(case_status) || "-"}
+          </span>
         </div>
         <hr className="my-4" />
         <h3 className="text-lg font-semibold mb-4">Participants</h3>
