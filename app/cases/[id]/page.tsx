@@ -72,7 +72,7 @@ export default async function CasePage({
           </span>
         </div>
         <hr className="my-4" />
-        <h3 className="text-lg font-semibold mb-4">Events</h3>
+        <h3 className="text-lg font-semibold">Events</h3>
         <DataTable columns={columnsEvent} data={case_event as CaseEvent[]} />
         <hr className="my-4" />
         <h3 className="text-lg font-semibold mb-4">Documents</h3>

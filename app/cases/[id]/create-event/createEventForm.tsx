@@ -32,6 +32,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Validation schema using Zod
 const formSchema = z.object({
@@ -245,9 +246,16 @@ export default function CreateCaseEventForm({ caseId }: Props) {
           />
         </div>
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Adding..." : "Add Event"}
-        </Button>
+        <div className="flex gap-4 justify-between items-center">
+          <Link href={`/cases/${caseId}`}>
+            <Button variant="outline" className="mr-2">
+              Cancel
+            </Button>
+          </Link>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Adding..." : "Add Event"}
+          </Button>
+        </div>
       </form>
     </Form>
   );

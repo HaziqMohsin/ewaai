@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Zen_Loop } from "next/font/google";
+import Link from "next/link";
 
 type Profile = {
   id: string;
@@ -242,9 +242,16 @@ export default function CreateCaseForm({
           )}
         />
 
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          {form.formState.isSubmitting ? "Creating..." : "Create Case"}
-        </Button>
+        <div className="flex justify-between items-center gap-4">
+          <Link href="/cases">
+            <Button variant="outline" className="mr-2">
+              Cancel
+            </Button>
+          </Link>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Creating..." : "Create Case"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
