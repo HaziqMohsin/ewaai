@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "./data-table";
 import { columns, Case } from "./columns";
+import PopupEditStatus from "./popupEditStatus";
 
 export default async function Page() {
   const data = await fetch(`${process.env.API_URL}/cases`);
@@ -25,6 +26,7 @@ export default async function Page() {
         </div>
       </div>
       <DataTable columns={columns} data={cases as Case[]} />
+      <PopupEditStatus cases={cases} />
     </div>
   );
 }

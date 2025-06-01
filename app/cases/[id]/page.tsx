@@ -1,6 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { DataTable } from "./data-table";
 import { columnsEvent, CaseEvent } from "./columnsEvent";
+import { format } from "date-fns";
 
 export default async function CasePage({
   params,
@@ -38,7 +39,7 @@ export default async function CasePage({
         </div>
         <div className="grid grid-cols-6 gap-4 items-center">
           <Label className="text-right">Description:</Label>
-          <span className="col-span-4">{description}</span>
+          <span className="col-span-4">{description || "-"}</span>
         </div>
 
         <div className="grid grid-cols-6 gap-4 items-center">
@@ -51,7 +52,9 @@ export default async function CasePage({
         </div>
         <div className="grid grid-cols-6 gap-4 items-center">
           <Label className="text-right">Created at:</Label>
-          <span className="col-span-4">{created_at || "-"}</span>
+          <span className="col-span-4">
+            {format(new Date(created_at), "dd/MM/yyyy") || "-"}
+          </span>
         </div>
         <div className="grid grid-cols-6 gap-4 items-center">
           <Label className="text-right">Status:</Label>

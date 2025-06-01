@@ -99,3 +99,29 @@ export async function GET(
     { status: 200 }
   );
 }
+
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const body = await req.json();
+  const { status } = body;
+
+  const { data, error } = await supabase
+    .from("cases")
+    .update({ status })
+    .eq("id", id);
+
+  if (error) {
+    return NextResponse.json(
+      { error: "Failed to update case status" },
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json(
+    { message: "Case status updated successfully", data },
+    { status: 200 }
+  );
+}

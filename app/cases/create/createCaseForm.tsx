@@ -81,7 +81,7 @@ export default function CreateCaseForm({
       { profile_id: values.lawyers, role: "lawyer" },
     ];
 
-    const res = await fetch("/api/case", {
+    const res = await fetch("/api/cases", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -93,12 +93,12 @@ export default function CreateCaseForm({
 
     const result = await res.json();
 
-    console.log(result);
     if (!res.ok) {
       toast({ title: "Error", description: result.error });
     } else {
       toast({ title: "Success", description: "Case created successfully" });
       form.reset();
+      router.push("/cases");
     }
   };
 

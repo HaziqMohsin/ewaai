@@ -73,6 +73,16 @@ export const columns: ColumnDef<Case>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const formatStatus =
+        status === "open"
+          ? "Open"
+          : status === "in_progress"
+            ? "In Progress"
+            : "Closed";
+      return <span>{formatStatus}</span>;
+    },
   },
   {
     accessorKey: "created_by",
@@ -129,6 +139,9 @@ export const columns: ColumnDef<Case>[] = [
               <DropdownMenuItem>Edit</DropdownMenuItem>
               <Link href={`/cases/${cases.id}/create-event`}>
                 <DropdownMenuItem>Create Event</DropdownMenuItem>
+              </Link>
+              <Link href={`/cases?editStatus=true&caseId=${cases.id}`}>
+                <DropdownMenuItem>Change Status</DropdownMenuItem>
               </Link>
             </DropdownMenuContent>
           </DropdownMenu>
