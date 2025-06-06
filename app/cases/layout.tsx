@@ -1,5 +1,6 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Layout({
   children,
