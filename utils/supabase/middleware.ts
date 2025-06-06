@@ -40,12 +40,12 @@ export const updateSession = async (request: NextRequest) => {
     const user = await supabase.auth.getUser();
     const { data, error } = await supabase
       .from("profiles")
-      .select("role")
+      .select("role, username")
       .eq("id", user.data.user?.id)
       .single();
 
-    // console.log(user);
-    // console.log(data);
+    console.log("user", user);
+    console.log("data", data);
 
     // protected routes
     if (request.nextUrl.pathname.startsWith("/protected") && user.error) {
